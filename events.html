@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events | FBLA-IT · ACP High School</title>
+    <meta
+      name="description"
+      content="Upcoming FBLA-IT events and deadlines: meetings, competitions, conferences, and chapter dates."
+    />
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html">
+          <!-- Replace images/acp-logo.svg with the official ACP High School logo -->
+          <img
+            class="brand-logo"
+            src="images/acp-logo.svg"
+            alt="ACP High School logo"
+          />
+          <span>FBLA-IT</span>
+        </a>
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a class="active" aria-current="page" href="events.html">Events</a></li>
+            <li><a href="resources.html">Resources</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-header">
+        <div class="container">
+          <h1>Events</h1>
+          <p>
+            Meetings, deadlines, competitions, and conferences for the
+            2026&ndash;2027 school year.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>Upcoming Events</h2>
+          <div id="upcoming-events" class="event-list"></div>
+
+          <h2 id="past-events-heading">Past Events</h2>
+          <div id="past-events" class="event-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>FBLA-IT &middot; ACP High School</p>
+        <p>&copy; 2026 FBLA-IT at ACP High School</p>
+      </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+  </body>
+</html>

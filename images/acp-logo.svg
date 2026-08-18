@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- PLACEHOLDER LOGO — replace this file with the official ACP High School
+       logo (keep the filename images/acp-logo.svg so the pages keep working). -->
+  <rect width="64" height="64" rx="8" fill="#5b2d86" />
+  <text x="32" y="40" font-family="Arial, Helvetica, sans-serif" font-size="22"
+        font-weight="bold" fill="#ffffff" text-anchor="middle">ACP</text>
+</svg>

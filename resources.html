@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resources | FBLA-IT · ACP High School</title>
+    <meta
+      name="description"
+      content="Official FBLA resources for members and anyone curious about the organization — National FBLA and Arizona FBLA."
+    />
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html">
+          <!-- Replace images/acp-logo.svg with the official ACP High School logo -->
+          <img
+            class="brand-logo"
+            src="images/acp-logo.svg"
+            alt="ACP High School logo"
+          />
+          <span>FBLA-IT</span>
+        </a>
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a class="active" aria-current="page" href="resources.html">Resources</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="page-header">
+        <div class="container">
+          <h1>Resources</h1>
+          <p>
+            A curated set of official FBLA resources — from the national
+            organization and from Arizona FBLA.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>National FBLA</h2>
+          <p class="section-intro">
+            Official resources from FBLA's national organization.
+          </p>
+          <div id="national-resources" class="resource-grid"></div>
+
+          <h2>Arizona FBLA</h2>
+          <p class="section-intro">
+            Official resources from Arizona FBLA.
+          </p>
+          <div id="arizona-resources" class="resource-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>FBLA-IT &middot; ACP High School</p>
+        <p>&copy; 2026 FBLA-IT at ACP High School</p>
+      </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+  </body>
+</html>

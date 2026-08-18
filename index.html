@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FBLA-IT | ACP High School</title>
+    <meta
+      name="description"
+      content="FBLA-IT is ACP High School's FBLA chapter focused on business, leadership, technology, and competitive events."
+    />
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html">
+          <!-- Replace images/acp-logo.svg with the official ACP High School logo -->
+          <img
+            class="brand-logo"
+            src="images/acp-logo.svg"
+            alt="ACP High School logo"
+          />
+          <span>FBLA-IT</span>
+        </a>
+        <button
+          class="nav-toggle"
+          id="nav-toggle"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+          <ul>
+            <li><a class="active" aria-current="page" href="index.html">Home</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="resources.html">Resources</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-text">
+            <h1>FBLA-IT</h1>
+            <p class="hero-school">ACP High School</p>
+            <p class="hero-description">
+              FBLA-IT is ACP High School's chapter of Future Business Leaders
+              of America — a student organization focused on business,
+              leadership, technology, and competitive events.
+            </p>
+          </div>
+          <div class="hero-logos">
+            <!-- Replace these with the official logo files (keep the same names) -->
+            <img src="images/acp-logo.svg" alt="ACP High School logo" />
+            <img src="images/fbla-logo.svg" alt="FBLA High School logo" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Countdown -->
+      <section class="section" aria-labelledby="countdown-heading">
+        <div class="container">
+          <h2 id="countdown-heading">Countdown</h2>
+          <p class="section-intro">
+            Time until our next chapter milestones.
+          </p>
+          <div id="countdown-list" class="countdown-list"></div>
+        </div>
+      </section>
+
+      <!-- Upcoming events -->
+      <section class="section section-alt" aria-labelledby="upcoming-heading">
+        <div class="container">
+          <h2 id="upcoming-heading">Upcoming Events</h2>
+          <p class="section-intro">
+            A look at what's coming up soon. See the full list on the Events page.
+          </p>
+          <div id="home-events" class="event-list"></div>
+          <p class="section-link"><a href="events.html">See all events &rarr;</a></p>
+        </div>
+      </section>
+
+      <!-- Latest announcement -->
+      <section class="section" aria-labelledby="announcement-heading">
+        <div class="container">
+          <h2 id="announcement-heading">Announcements</h2>
+          <div id="announcements"></div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="section section-alt" aria-labelledby="about-heading">
+        <div class="container">
+          <h2 id="about-heading">What is FBLA-IT?</h2>
+          <div class="about-cols">
+            <div>
+              <h3>What is FBLA?</h3>
+              <p>
+                Future Business Leaders of America (FBLA) is the largest student
+                business organization in the country. Members build leadership
+                skills, compete in business and technology events, and connect
+                with other students.
+              </p>
+            </div>
+            <div>
+              <h3>What is FBLA-IT?</h3>
+              <p>
+                FBLA-IT is ACP High School's FBLA chapter. We bring together
+                students interested in business, leadership, and technology
+                through meetings, competitions, and chapter activities.
+              </p>
+            </div>
+            <div>
+              <h3>What to expect</h3>
+              <p>
+                Regular chapter meetings, competitive-event training, conference
+                opportunities, and a chance to build skills that last beyond
+                high school.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>FBLA-IT &middot; ACP High School</p>
+        <p>&copy; 2026 FBLA-IT at ACP High School</p>
+      </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/site.js"></script>
+  </body>
+</html>
