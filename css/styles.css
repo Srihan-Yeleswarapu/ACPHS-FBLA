@@ -199,16 +199,14 @@ img {
 .hero-logos {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   flex-shrink: 0;
 }
 
 .hero-logos img {
-  height: 64px;
+  height: 120px;
   width: auto;
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 8px;
+  object-fit: contain;
 }
 
 /* ---- Sections ---- */
@@ -542,7 +540,7 @@ img {
   }
 
   .hero-logos img {
-    height: 52px;
+    height: 80px;
   }
 
   .countdown-value {
