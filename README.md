@@ -1,22 +1,22 @@
-# fbla-it website
+# FBLA-IT website
 
-this is the website for fbla-it at acp high school. it has 3 pages: home, events, and resources.
+this is the website for FBLA-IT at ACP High School. It has 3 pages: home, events, and resources.
 
-there's no backend or database or anything. it's just html, css, and js. anyone can edit it with a text editor.
+Written in HTML, CSS and Javascript
 
-## how to run it
+## Website Execution
 
-just open index.html in your browser. that's it. no installs, no setup.
+Just open index.html in your browser. that's it. no installs, no setup.
 
-(or if you want, run this in the folder: `python -m http.server 8080` and go to http://localhost:8080)
+(Or run this in the folder: `python -m http.server 8080` and go to http://localhost:8080)
 
-## where everything lives
+## Where to modify
 
-almost everything you'll ever want to change is in ONE file: `js/data.js`. you'll never need to touch the other files unless you're changing how the site looks or works.
+Most edits can be done by changing one file: `js/data.js`, you'll never need to touch the other files unless you're changing how the site looks or works.
 
-## how to add an event
+## Adding events
 
-go to js/data.js, find the `EVENTS` part, copy one of the existing events, paste it, and change the stuff. it looks like this:
+Go to js/data.js, find the `EVENTS` part, copy one of the existing events, paste it, and change the data. it looks like this:
 
 ```js
 {
@@ -31,12 +31,12 @@ go to js/data.js, find the `EVENTS` part, copy one of the existing events, paste
 ```
 
 - `type` decides the little colored tag. options: meeting, deadline, competition, conference, fundraiser, service, testing
-- if you don't know the date yet, put `date: ""` and add `dateTbd: true` and it'll show "date: tbd"
+- Ff you don't know the date yet, put `date: ""` and add `dateTbd: true` and it'll show "date: tbd"
 - `link` is optional. leave it `""` if there's no link
 
-## how to change an announcement
+## Changing Announcements
 
-find the `ANNOUNCEMENTS` part in js/data.js. add new ones at the TOP. the newest one shows first.
+Find the `ANNOUNCEMENTS` part in js/data.js. add new ones at the TOP. the newest one shows first.
 
 ```js
 {
@@ -49,23 +49,23 @@ find the `ANNOUNCEMENTS` part in js/data.js. add new ones at the TOP. the newest
 },
 ```
 
-## how to add a countdown
+## Adding Countdowns
 
-find the `COUNTDOWNS` part in js/data.js. copy an entry, change the name and date. the date has to be like `"2026-09-10T15:30:00"`.
+Find the `COUNTDOWNS` part in js/data.js. copy an entry, change the name and date. the date has to be like `"2026-09-10T15:30:00"`.
 
-if the date is tbd, put `date: ""` and add `tbd: true`.
+If the date is tbd, put `date: ""` and add `tbd: true`.
 
-## how to add a resource
+## Adding Resources
 
-find the `RESOURCES` part in js/data.js. copy an entry and change it. `category` is either `"national"` (national fbla) or `"arizona"` (arizona fbla).
+Find the `RESOURCES` part in js/data.js. copy an entry and change it. `category` is either `"national"` (national fbla) or `"arizona"` (arizona fbla).
 
-## logos
+## Replacing Logos
 
-there are placeholder logos in the `images` folder: acp-logo.svg and fbla-logo.svg. replace those files with the real logos. keep the same file names so the site keeps working.
+Placeholder logos can be found in the `images` folder: acp-logo.svg and fbla-logo.svg. replace those files with the real logos. Keep the same file names so the site keeps working.
 
-## colors
+## Color
 
-the acp purple is set at the top of `css/styles.css`. look for `--acp-purple`. change the hex code there if you get the real color.
+The ACP purple is set at the top of `css/styles.css`. look for `--acp-purple`. change the hex code there if you get the real color.
 
 ## the files
 
@@ -79,8 +79,8 @@ js/site.js       the code that puts stuff on the page. you probably won't touch 
 images/          logos and the little browser icon
 ```
 
-## things to know
+## Things to know
 
-- the 2026-27 competitive event stuff comes out around sept 1, 2026. when it does, update the "2026-2027 high school competitive events" card in js/data.js
-- a bunch of the event dates are placeholders for now. they're marked with comments like `// placeholder`. swap them for the real dates when you have them.
-- no login, no accounts, no database. that's on purpose. keep it that way.
+- The 2026-27 competitive event stuff comes out around sept 1, 2026. when it does, update the "2026-2027 high school competitive events" card in js/data.js
+- A bunch of the event dates are placeholders for now. they're marked with comments like `// placeholder`. swap them for the real dates when you have them.
+- No login, no accounts, no database. that's on purpose. keep it that way.
