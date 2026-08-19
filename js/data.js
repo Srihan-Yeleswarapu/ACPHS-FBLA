@@ -14,16 +14,17 @@
 // copy an entry and change the values.
 const COUNTDOWNS = [
   {
+    name: "FBLA-IT Officer Meeting",
+    date: "2026-08-19T14:20:00",
+    note: "Officers only",
+  },
+  {
     name: "Next FBLA-IT Meeting",
     date: "",  // TBD
     note: "Kickoff meeting · Room B101",
     tbd: true,
   },
-  {
-    name: "FBLA-IT Officer Meeting",
-    date: "2026-08-19T14:20:00",
-    note: "Officers only",
-  },
+  
 ];
 // ANNOUNCEMENTS
 // The Home page shows the newest announcement first, so add new announcements
