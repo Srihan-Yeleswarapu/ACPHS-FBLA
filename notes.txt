@@ -1,1 +1,3 @@
 https://www.fbla.org/brand-center/ has all the logos
+
+For the logos on the page, I kind of want to add a background, but I want a light opacity so we read the text
