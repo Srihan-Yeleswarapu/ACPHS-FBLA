@@ -23,11 +23,44 @@ function formatDate(dateStr) {
     day: "numeric",
   });
 }
+
+// Converts "14:20" to "2:20 PM".
+function formatTime12h(timeStr) {
+  const parts = timeStr.split(":");
+  let h = parseInt(parts[0], 10);
+  const m = parts[1];
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+  return h + ":" + m + " " + ampm;
+}
 // COUNTDOWN
 
 // Reusable countdown component. Creates a card that ticks every second and
 // shows Days / Hours / Minutes / Seconds until the target date. When the date
 // passes, it shows a clean "has passed" message instead of negative numbers.
+// Computes the next occurrence of a recurring weekly event.
+// dayOfWeek: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+// timeStr: "HH:MM" in 24h format, e.g. "14:20"
+function getNextWeeklyOccurrence(dayOfWeek, timeStr) {
+  const now = new Date();
+  const parts = timeStr.split(":");
+  const hours = parseInt(parts[0], 10);
+  const minutes = parseInt(parts[1], 10);
+
+  // Build the next candidate: same day-of-week, same time, this week or next
+  const candidate = new Date(now);
+  candidate.setHours(hours, minutes, 0, 0);
+
+  // Days until the target day-of-week
+  const currentDay = now.getDay();
+  let daysAhead = dayOfWeek - currentDay;
+  if (daysAhead < 0 || (daysAhead === 0 && candidate <= now)) {
+    daysAhead += 7;
+  }
+  candidate.setDate(candidate.getDate() + daysAhead);
+  return candidate;
+}
+
 function createCountdown(item) {
   const card = document.createElement("div");
   card.className = "countdown-card";
@@ -45,7 +78,10 @@ function createCountdown(item) {
     return card;
   }
 
-  const target = new Date(item.date).getTime();
+  // Recurring weekly — compute the next occurrence dynamically.
+  const target = item.recurring === "weekly"
+    ? getNextWeeklyOccurrence(item.dayOfWeek, item.time).getTime()
+    : new Date(item.date).getTime();
   card.innerHTML =
     '<h3 class="countdown-name">' +
     escapeHtml(item.name) +
@@ -60,7 +96,9 @@ function createCountdown(item) {
     '<div class="countdown-unit"><span class="countdown-value" data-unit="seconds">--</span><span class="countdown-label">Seconds</span></div>' +
     "</div>" +
     '<p class="countdown-date">' +
-    formatDate(item.date) +
+    (item.recurring === "weekly"
+      ? "Every Wednesday at " + formatTime12h(item.time)
+      : formatDate(item.date)) +
     "</p>";
 
   const values = {

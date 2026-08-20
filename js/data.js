@@ -15,14 +15,15 @@
 const COUNTDOWNS = [
   {
     name: "FBLA-IT Officer Meeting",
-    date: "2026-08-19T14:20:00",
+    recurring: "weekly",
+    dayOfWeek: 3, // 0=Sun, 1=Mon, 2=Tue, 3=Wed, ...
+    time: "14:20", // 2:20 PM in 24h
     note: "Officers only",
   },
   {
     name: "Next FBLA-IT Meeting",
-    date: "",  // TBD
-    note: "Kickoff meeting · Room B101",
-    tbd: true,
+    date: "2026-09-15T09:12:00",
+    note: "Kickoff meeting · Cafeteria",
   },
   
 ];
@@ -62,10 +63,9 @@ const EVENTS = [
   },
   {
     name: "FBLA-IT Kickoff Meeting",
-    date: "",  // TBD
-    dateTbd: true,
-    time: "2:20 PM",
-    location: "Room B101",
+    date: "2026-09-15T00:00:00",
+    time: "9:12 AM",
+    location: "Cafeteria",
     description:
       "First chapter meeting of the 2026–2027 school year. Open to all members.",
     type: "meeting",
