@@ -466,6 +466,62 @@ img {
   margin-top: 14px;
 }
 
+/* ---- About page ---- */
+.content-in-progress {
+  border: 1px dashed var(--grey-500);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  color: var(--grey-500);
+  background: var(--grey-100);
+  font-style: italic;
+  max-width: 46em;
+}
+
+.advisor-quote {
+  margin: 0;
+  padding: 20px 24px;
+  border-left: 5px solid var(--acp-purple);
+  border-radius: var(--radius);
+  background: var(--acp-purple-light);
+  max-width: 46em;
+}
+
+.advisor-quote p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--grey-700);
+}
+
+.officer-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.officer-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  background: var(--white);
+}
+
+.officer-card h3 {
+  margin-bottom: 0.15em;
+  color: var(--acp-purple);
+}
+
+.officer-name {
+  color: var(--grey-500);
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-bottom: 0.5em;
+}
+
+.officer-card > p:last-child {
+  margin-bottom: 0;
+}
+
 /* ---- About (Home) ---- */
 .about-cols {
   display: grid;
