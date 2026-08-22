@@ -36,7 +36,13 @@ const COUNTDOWNS = [
 //   link        -> optional URL (omit or set to "" for no link)
 //   linkText    -> optional text for the link button
 //   priority    -> optional number; higher numbers are shown first
-const ANNOUNCEMENTS = [];
+const ANNOUNCEMENTS = [
+  {
+    title: "Website is ready!",
+    date: "",
+    description: "Srihan and Gabriel have sucessfully completed building the ACPHS FBLA Website!"
+  }
+];
 // EVENTS
 // Shown chronologically on the Events page (upcoming first, past events below).
 //   name        -> event title
