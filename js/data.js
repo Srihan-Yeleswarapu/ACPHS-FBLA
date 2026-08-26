@@ -4,6 +4,44 @@
 // same and just fill in your own values.
 //
 // pls dont mess this up... it links up to everything
+//
+// ============================== ADD TO CALENDAR ==============================
+// Any countdown or event can show an "Add to Calendar" button that downloads
+// an .ics file (opens in Google Calendar / Apple Calendar / Outlook).
+// Add a `calendar: { ... }` block to an entry to turn it on. NO block = NO
+// button (officer-only stuff should stay without one).
+//
+// EVERY field inside `calendar` is optional — skip whatever you don't need.
+//
+//   title            -> event name in the calendar file
+//                       (default: the entry's name)
+//   description      -> notes shown in the calendar app
+//                       (default: the entry's description)
+//   location         -> where it happens (default: the entry's location)
+//   start            -> "YYYY-MM-DDTHH:MM:SS" start time
+//                       (default: the entry's date)
+//   end              -> "YYYY-MM-DDTHH:MM:SS" end time
+//   durationMinutes  -> alternative to end: how long it lasts
+//                       (default: 60 minutes if neither is given)
+//   allDay           -> true = all-day event, ignores time
+//                       (end then means the inclusive LAST day)
+//   url              -> link attached to the event (default: the entry's link)
+//   categories       -> tags, e.g. ["Meeting", "Chapter"]
+//   status           -> "CONFIRMED" (default), "TENTATIVE", or "CANCELLED"
+//   transparent      -> true = shows as "Free" instead of "Busy"
+//   privacy          -> "PUBLIC" (default), "PRIVATE", or "CONFIDENTIAL"
+//   priority         -> 0–9 (0 = none, 1 = highest, 9 = lowest)
+//   geo              -> map coordinates "latitude;longitude",
+//                       e.g. "33.3062;-111.6843"  (semicolon required)
+//   color            -> color hint some apps use, e.g. "purple"
+//   organizer        -> { name: "Ms. Adviser", email: "adviser@acp.org" }
+//   attendees        -> list of { name: "...", email: "..." }
+//   reminders        -> pop-up reminders BEFORE start, in minutes,
+//                       e.g. [1440, 10] = 1 day and 10 minutes before
+//   recurrence       -> raw repeat rule for repeating events,
+//                       e.g. "FREQ=WEEKLY;BYDAY=WE" = every Wednesday
+// =============================================================================
+
 // COUNTDOWNS
 // Each entry shows a live countdown on the Home page until its date passes.
 //   name  -> the label shown above the timer
@@ -19,13 +57,24 @@ const COUNTDOWNS = [
     dayOfWeek: 3, // 0=Sun, 1=Mon, 2=Tue, 3=Wed, ...
     time: "14:20", // 2:20 PM in 24h
     note: "Officers only",
+    // no calendar block — officers only, so no Add to Calendar button
   },
   {
     name: "Next FBLA-IT Meeting",
     date: "2026-09-15T09:12:00",
     note: "Kickoff meeting · Cafeteria",
+    calendar: {
+      title: "FBLA-IT Kickoff Meeting",
+      location: "Cafeteria",
+      durationMinutes: 45,
+      categories: ["Meeting", "Chapter"],
+      status: "CONFIRMED",
+      reminders: [1440, 10],
+      description:
+        "First chapter meeting of the 2026–2027 school year. Open to all members.",
+    },
   },
-  
+
 ];
 // ANNOUNCEMENTS
 // The Home page shows the newest announcement first, so add new announcements
@@ -40,7 +89,7 @@ const ANNOUNCEMENTS = [
   {
     title: "Website is ready!",
     date: "",
-    description: "Srihan and Gabriel have sucessfully completed building the ACPHS FBLA Website!"
+    description: "Srihan and Gabriel have successfully completed building the ACPHS FBLA Website!"
   }
 ];
 // EVENTS
@@ -53,6 +102,10 @@ const ANNOUNCEMENTS = [
 //   type        -> one of: meeting, deadline, competition, conference,
 //                  fundraiser, service, testing  (controls the colored badge)
 //   link        -> optional external URL (leave "" for none)
+//   calendar    -> optional block that adds an "Add to Calendar" button.
+//                  See the big ADD TO CALENDAR section at the top of this
+//                  file for every option. Only add it to member events —
+//                  officer-only stuff shouldn't have one.
 //
 // PLACEHOLDER NOTE: several dates/descriptions below are placeholders for the
 // 2026–2027 school year. Replace them with the real chapter schedule.
@@ -76,6 +129,12 @@ const EVENTS = [
       "First chapter meeting of the 2026–2027 school year. Open to all members.",
     type: "meeting",
     link: "",
+    calendar: {
+      start: "2026-09-15T09:12:00",
+      durationMinutes: 45,
+      categories: ["Meeting", "Chapter"],
+      reminders: [1440, 10],
+    },
   },
   {
     name: "Regional Competitive Events",

@@ -437,6 +437,28 @@ img {
   color: var(--grey-700);
 }
 
+/* ---- Add to Calendar button ---- */
+.card-actions {
+  margin: 12px 0 0;
+}
+
+.ics-button {
+  display: inline-block;
+  background: var(--acp-purple);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ics-button:hover {
+  background: var(--acp-purple-dark);
+}
+
 /* ---- Resource cards ---- */
 .resource-grid {
   display: grid;

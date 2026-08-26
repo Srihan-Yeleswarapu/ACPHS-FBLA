@@ -33,6 +33,279 @@ function formatTime12h(timeStr) {
   h = h % 12 || 12;
   return h + ":" + m + " " + ampm;
 }
+
+// -----------------------------------------------------------------------------
+// ADD TO CALENDAR (.ics download)
+// -----------------------------------------------------------------------------
+// Any event or countdown can get an "Add to Calendar" button by adding a
+// `calendar: { ... }` block to its entry in js/data.js. Every field inside the
+// block is optional — see the big comment in data.js for the full list.
+//
+// Date/times are written as "floating" local times (no UTC offset), matching
+// how dates are entered in data.js, so the event lands at school-local time
+// in whichever calendar app opens it.
+
+function pad2(num) {
+  return String(num).padStart(2, "0");
+}
+
+// RFC 5545 escaping for text values (backslash, semicolon, comma, newlines).
+function icsEscapeText(value) {
+  return String(value == null ? "" : value)
+    .replace(/\\/g, "\\\\")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,")
+    .replace(/\r?\n/g, "\\n");
+}
+
+// Fold long lines at ~74 chars with a leading space, per RFC 5545.
+function icsFold(line) {
+  if (line.length <= 74) return line;
+  let out = line.slice(0, 74);
+  let rest = line.slice(74);
+  while (rest.length > 0) {
+    out += "\r\n " + rest.slice(0, 73);
+    rest = rest.slice(73);
+  }
+  return out;
+}
+
+// Local timestamp like "20260915T091200" (no timezone suffix).
+function icsLocalStamp(date) {
+  return (
+    date.getFullYear() +
+    pad2(date.getMonth() + 1) +
+    pad2(date.getDate()) +
+    "T" +
+    pad2(date.getHours()) +
+    pad2(date.getMinutes()) +
+    pad2(date.getSeconds())
+  );
+}
+
+// UTC timestamp like "20260825T163000Z" (used for DTSTAMP).
+function icsUtcStamp(date) {
+  return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+}
+
+// Date only like "20260915".
+function icsDateOnly(date) {
+  return (
+    date.getFullYear() + pad2(date.getMonth() + 1) + pad2(date.getDate())
+  );
+}
+
+// Safe filename/uid chunk: lowercase letters, numbers, dashes.
+function icsSlug(text) {
+  const slug = String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || "event";
+}
+
+// Minutes -> RFC 5545 duration like "PT1H30M".
+function icsDuration(minutes) {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  let out = "PT";
+  if (h > 0) out += h + "H";
+  if (m > 0) out += m + "M";
+  return out === "PT" ? "PT0M" : out;
+}
+
+// Turns an event/countdown's `calendar` block into a fully-resolved config,
+// filling gaps from the parent entry (name/date/description/location/link).
+// Returns null when the entry has no usable calendar info (e.g. no date).
+function resolveCalendar(item) {
+  const cal = item.calendar;
+  if (!cal || typeof cal !== "object") return null;
+
+  const startSrc = cal.start || item.date || "";
+  const start = startSrc ? new Date(startSrc) : null;
+  if (!start || isNaN(start.getTime())) return null;
+
+  let end = null;
+  if (cal.end) {
+    const parsedEnd = new Date(cal.end);
+    if (!isNaN(parsedEnd.getTime())) end = parsedEnd;
+  }
+  // No explicit end -> use durationMinutes (default 60). All-day events are
+  // handled separately in buildIcs (their end date is inclusive).
+  if (!end && !cal.allDay) {
+    const minutes =
+      typeof cal.durationMinutes === "number" && cal.durationMinutes > 0
+        ? cal.durationMinutes
+        : 60;
+    end = new Date(start.getTime() + minutes * 60000);
+  }
+
+  const upper = function (v, allowed, fallback) {
+    const s = String(v || "").toUpperCase();
+    return allowed.indexOf(s) !== -1 ? s : fallback;
+  };
+
+  return {
+    title: cal.title || item.name || "FBLA-IT Event",
+    description:
+      cal.description != null ? String(cal.description) : item.description || "",
+    location:
+      cal.location != null ? String(cal.location) : item.location || "",
+    url: cal.url ? String(cal.url) : item.link || "",
+    start: start,
+    end: end,
+    allDay: cal.allDay === true,
+    categories: Array.isArray(cal.categories) ? cal.categories : [],
+    status: upper(cal.status, ["CONFIRMED", "TENTATIVE", "CANCELLED"], "CONFIRMED"),
+    transparent: cal.transparent === true,
+    privacy: upper(cal.privacy, ["PUBLIC", "PRIVATE", "CONFIDENTIAL"], "PUBLIC"),
+    priority:
+      typeof cal.priority === "number" && cal.priority >= 0 && cal.priority <= 9
+        ? Math.round(cal.priority)
+        : null,
+    geo: typeof cal.geo === "string" ? cal.geo.trim() : "",
+    color: cal.color ? String(cal.color) : "",
+    organizer:
+      cal.organizer && typeof cal.organizer === "object" ? cal.organizer : null,
+    attendees: Array.isArray(cal.attendees) ? cal.attendees : [],
+    reminders: Array.isArray(cal.reminders)
+      ? cal.reminders.filter(function (m) {
+          return typeof m === "number" && m > 0;
+        })
+      : [],
+    recurrence: cal.recurrence ? String(cal.recurrence).trim() : "",
+  };
+}
+
+// Builds the full .ics file text for a resolved calendar config.
+function buildIcs(c) {
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//ACPHS FBLA-IT Website//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:" + icsSlug(c.title) + "-" + icsLocalStamp(c.start) + "@acphs-fbla-it",
+    "DTSTAMP:" + icsUtcStamp(new Date()),
+  ];
+
+  if (c.allDay) {
+    lines.push("DTSTART;VALUE=DATE:" + icsDateOnly(c.start));
+    // DTEND for date values is exclusive, but data.js treats `end` as the
+    // inclusive last day — so add one day here.
+    let endDay;
+    if (c.end) {
+      endDay = new Date(c.end);
+      endDay.setDate(endDay.getDate() + 1);
+      endDay = icsDateOnly(endDay);
+    } else {
+      const next = new Date(c.start);
+      next.setDate(next.getDate() + 1);
+      endDay = icsDateOnly(next);
+    }
+    lines.push("DTEND;VALUE=DATE:" + endDay);
+  } else {
+    lines.push("DTSTART:" + icsLocalStamp(c.start));
+    if (c.end) lines.push("DTEND:" + icsLocalStamp(c.end));
+  }
+
+  lines.push("SUMMARY:" + icsEscapeText(c.title));
+
+  if (c.description) lines.push("DESCRIPTION:" + icsEscapeText(c.description));
+  if (c.location) lines.push("LOCATION:" + icsEscapeText(c.location));
+  if (c.url) lines.push("URL:" + icsEscapeText(c.url));
+  if (c.categories.length > 0) {
+    lines.push(
+      "CATEGORIES:" + c.categories.map(icsEscapeText).join(",")
+    );
+  }
+
+  lines.push("STATUS:" + c.status);
+  lines.push("TRANSP:" + (c.transparent ? "TRANSPARENT" : "OPAQUE"));
+  lines.push("CLASS:" + c.privacy);
+  if (c.priority !== null) lines.push("PRIORITY:" + c.priority);
+
+  // GEO uses "lat;long" — its semicolon is a separator, never escaped.
+  if (/^-?\d+(\.\d+)?\s*;\s*-?\d+(\.\d+)?$/.test(c.geo)) {
+    lines.push("GEO:" + c.geo.replace(/\s+/g, ""));
+  }
+  if (c.color) lines.push("COLOR:" + icsEscapeText(c.color));
+
+  if (c.organizer && c.organizer.email) {
+    lines.push(
+      (c.organizer.name ? "ORGANIZER;CN=" + icsEscapeText(c.organizer.name) + ":" : "ORGANIZER:") +
+        "mailto:" + icsEscapeText(c.organizer.email)
+    );
+  }
+  c.attendees.forEach(function (person) {
+    if (person && person.email) {
+      lines.push(
+        (person.name ? "ATTENDEE;CN=" + icsEscapeText(person.name) + ";" : "ATTENDEE;") +
+          "ROLE=REQ-PARTICIPANT:mailto:" + icsEscapeText(person.email)
+      );
+    }
+  });
+
+  if (c.recurrence) lines.push("RRULE:" + icsEscapeText(c.recurrence));
+
+  c.reminders.forEach(function (minutes) {
+    lines.push(
+      "BEGIN:VALARM",
+      "ACTION:DISPLAY",
+      "TRIGGER:-" + icsDuration(minutes),
+      "DESCRIPTION:Reminder",
+      "END:VALARM"
+    );
+  });
+
+  lines.push("SEQUENCE:0");
+  lines.push("END:VEVENT");
+  lines.push("END:VCALENDAR");
+
+  return lines.map(icsFold).join("\r\n") + "\r\n";
+}
+
+// Generates the file and triggers a browser download.
+function downloadCalendarFile(c) {
+  const blob = new Blob([buildIcs(c)], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download =
+    icsSlug(c.title) + "-" + icsDateOnly(c.start) + ".ics";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(function () {
+    URL.revokeObjectURL(url);
+  }, 1000);
+}
+
+// Adds an "Add to Calendar" button to a card when the item opts in via a
+// `calendar` block and hasn't already happened.
+function attachAddToCalendar(card, item) {
+  const config = resolveCalendar(item);
+  if (!config) return;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (config.start < today) return;
+
+  const wrap = document.createElement("p");
+  wrap.className = "card-actions";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "ics-button";
+  button.textContent = "Add to Calendar";
+  button.addEventListener("click", function () {
+    downloadCalendarFile(config);
+  });
+
+  wrap.appendChild(button);
+  card.appendChild(wrap);
+}
 // COUNTDOWN
 
 // Reusable countdown component. Creates a card that ticks every second and
@@ -107,6 +380,8 @@ function createCountdown(item) {
     minutes: card.querySelector('[data-unit="minutes"]'),
     seconds: card.querySelector('[data-unit="seconds"]'),
   };
+
+  attachAddToCalendar(card, item);
 
   function pad(num) {
     return String(num).padStart(2, "0");
@@ -235,6 +510,7 @@ function createEventCard(event) {
   }
 
   card.innerHTML = html;
+  attachAddToCalendar(card, event);
   return card;
 }
 

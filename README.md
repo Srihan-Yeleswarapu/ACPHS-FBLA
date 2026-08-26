@@ -34,6 +34,28 @@ Go to js/data.js, find the `EVENTS` part, copy one of the existing events, paste
 - Ff you don't know the date yet, put `date: ""` and add `dateTbd: true` and it'll show "date: tbd"
 - `link` is optional. leave it `""` if there's no link
 
+## Add to Calendar buttons
+
+Any event or countdown can show an **Add to Calendar** button that downloads an `.ics` file (works with Google Calendar, Apple Calendar, Outlook...). Add a `calendar: { ... }` block to its entry in `js/data.js`:
+
+```js
+{
+  name: "FBLA-IT Kickoff Meeting",
+  date: "2026-09-15T00:00:00",
+  // ...
+  calendar: {
+    start: "2026-09-15T09:12:00",  // defaults to the event's date
+    durationMinutes: 45,           // or use end: "..."; default is 60
+    categories: ["Meeting"],
+    reminders: [1440, 10],         // popup 1 day and 10 min before
+  },
+}
+```
+
+Everything inside `calendar` is optional. The full list of options (location, url, all-day, status, priority, geo coordinates, organizer/attendees, repeat rules...) is documented at the top of `js/data.js`.
+
+**Only add it to member events.** No `calendar` block = no button — keep officer-only stuff without one.
+
 ## Changing Announcements
 
 Find the `ANNOUNCEMENTS` part in js/data.js. add new ones at the TOP. the newest one shows first.
