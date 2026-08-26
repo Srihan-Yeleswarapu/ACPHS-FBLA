@@ -6,8 +6,9 @@
 // pls dont mess this up... it links up to everything
 //
 // ============================== ADD TO CALENDAR ==============================
-// Any countdown or event can show an "Add to Calendar" button that downloads
-// an .ics file (opens in Google Calendar / Apple Calendar / Outlook).
+// Any countdown or event can show an "Add to Calendar" button. On iPhone/iPad
+// it opens Apple Calendar's own "Add to Calendar" screen; on Android and
+// desktop it opens a pre-filled Google Calendar page (one tap to save).
 // Add a `calendar: { ... }` block to an entry to turn it on. NO block = NO
 // button (officer-only stuff should stay without one).
 //

@@ -35,11 +35,20 @@ function formatTime12h(timeStr) {
 }
 
 // -----------------------------------------------------------------------------
-// ADD TO CALENDAR (.ics download)
+// ADD TO CALENDAR
 // -----------------------------------------------------------------------------
 // Any event or countdown can get an "Add to Calendar" button by adding a
 // `calendar: { ... }` block to its entry in js/data.js. Every field inside the
 // block is optional — see the big comment in data.js for the full list.
+//
+// What happens on tap depends on the device, so the button always does
+// something visible (a silent file download reads like a mystery .ics):
+//   iPhone/iPad -> iOS Safari shows its own "Add to Calendar" sheet and
+//                  drops the user straight into Apple Calendar.
+//   everyone else (Android + desktop) -> opens a pre-filled Google Calendar
+//                  save page in a new tab. That's Android's default calendar
+//                  app anyway, and on desktop it's just a normal web page
+//                  with a Save button.
 //
 // Date/times are written as "floating" local times (no UTC offset), matching
 // how dates are entered in data.js, so the event lands at school-local time
@@ -266,20 +275,44 @@ function buildIcs(c) {
   return lines.map(icsFold).join("\r\n") + "\r\n";
 }
 
-// Generates the file and triggers a browser download.
-function downloadCalendarFile(c) {
-  const blob = new Blob([buildIcs(c)], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download =
-    icsSlug(c.title) + "-" + icsDateOnly(c.start) + ".ics";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(function () {
-    URL.revokeObjectURL(url);
-  }, 1000);
+// True on iPhone / iPad / iPod touch. iPadOS 13+ reports itself as a Mac in
+// the user agent, so a Mac with a touch screen counts too.
+function isAppleMobileDevice() {
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) return true;
+  return /Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1;
+}
+
+// Google Calendar's pre-filled "save this event" page. Same info as the ics,
+// just handed over as a web page instead of a file.
+function googleCalendarUrl(c) {
+  const params = new URLSearchParams();
+  params.set("action", "TEMPLATE");
+  params.set("text", c.title);
+  if (c.allDay) {
+    // Google wants the end date exclusive, same as the ics code above.
+    const endDay = c.end ? new Date(c.end) : new Date(c.start);
+    endDay.setDate(endDay.getDate() + 1);
+    params.set("dates", icsDateOnly(c.start) + "/" + icsDateOnly(endDay));
+  } else {
+    params.set("dates", icsLocalStamp(c.start) + "/" + icsLocalStamp(c.end));
+  }
+  if (c.location) params.set("location", c.location);
+  let details = c.description || "";
+  if (c.url) details += (details ? "\n" : "") + c.url;
+  if (details) params.set("details", details);
+  return "https://calendar.google.com/calendar/render?" + params.toString();
+}
+
+// Sends the event to the user's calendar the native way for their device.
+function openCalendarEvent(c) {
+  if (isAppleMobileDevice()) {
+    // Handing iOS Safari the ics as a data URI makes it show the native
+    // event sheet ("Add to Calendar") instead of quietly saving a file.
+    window.location.href =
+      "data:text/calendar;charset=utf-8," + encodeURIComponent(buildIcs(c));
+    return;
+  }
+  window.open(googleCalendarUrl(c), "_blank", "noopener");
 }
 
 // Adds an "Add to Calendar" button to a card when the item opts in via a
@@ -300,7 +333,7 @@ function attachAddToCalendar(card, item) {
   button.className = "ics-button";
   button.textContent = "Add to Calendar";
   button.addEventListener("click", function () {
-    downloadCalendarFile(config);
+    openCalendarEvent(config);
   });
 
   wrap.appendChild(button);
