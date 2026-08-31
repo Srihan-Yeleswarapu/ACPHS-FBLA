@@ -275,11 +275,22 @@ function buildIcs(c) {
   return lines.map(icsFold).join("\r\n") + "\r\n";
 }
 
-// True on iPhone / iPad / iPod touch. iPadOS 13+ reports itself as a Mac in
-// the user agent, so a Mac with a touch screen counts too.
+// iPhone/iPad need the calendar file opened as a real navigation. A data URI
+// can get downloaded by newer mobile browsers, so use a temporary .ics URL.
 function isAppleMobileDevice() {
   if (/iPad|iPhone|iPod/.test(navigator.userAgent)) return true;
   return /Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1;
+}
+
+function openIcsFile(c) {
+  const file = new File([buildIcs(c)], "fbla-event.ics", {
+    type: "text/calendar;charset=utf-8",
+  });
+  const url = URL.createObjectURL(file);
+  window.location.href = url;
+  setTimeout(function () {
+    URL.revokeObjectURL(url);
+  }, 60000);
 }
 
 // Google Calendar's pre-filled "save this event" page. Same info as the ics,
@@ -306,10 +317,7 @@ function googleCalendarUrl(c) {
 // Sends the event to the user's calendar the native way for their device.
 function openCalendarEvent(c) {
   if (isAppleMobileDevice()) {
-    // Handing iOS Safari the ics as a data URI makes it show the native
-    // event sheet ("Add to Calendar") instead of quietly saving a file.
-    window.location.href =
-      "data:text/calendar;charset=utf-8," + encodeURIComponent(buildIcs(c));
+    openIcsFile(c);
     return;
   }
   window.open(googleCalendarUrl(c), "_blank", "noopener");
