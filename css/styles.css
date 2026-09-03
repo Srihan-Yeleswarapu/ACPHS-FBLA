@@ -319,6 +319,13 @@ img {
   font-style: italic;
 }
 
+.countdown-skip {
+  margin: 12px 0 0;
+  color: #b91c1c;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
 /* ---- Announcement ---- */
 .announcement-card {
   border: 1px solid var(--border);

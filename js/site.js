@@ -355,7 +355,14 @@ function attachAddToCalendar(card, item) {
 // Computes the next occurrence of a recurring weekly event.
 // dayOfWeek: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
 // timeStr: "HH:MM" in 24h format, e.g. "14:20"
-function getNextWeeklyOccurrence(dayOfWeek, timeStr) {
+// skipDates: optional list of cancelled dates as "YYYY-MM-DD". If the next
+// occurrence lands on one of those, it jumps ahead a week (so a cancelled
+// meeting counts down to the following week's meeting instead).
+function getNextWeeklyOccurrence(dayOfWeek, timeStr, skipDates) {
+  const skip = Array.isArray(skipDates) ? skipDates : [];
+  const dateKey = function (d) {
+    return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
+  };
   const now = new Date();
   const parts = timeStr.split(":");
   const hours = parseInt(parts[0], 10);
@@ -372,6 +379,13 @@ function getNextWeeklyOccurrence(dayOfWeek, timeStr) {
     daysAhead += 7;
   }
   candidate.setDate(candidate.getDate() + daysAhead);
+
+  // Walk past any cancelled dates (capped so a bad list can't loop forever).
+  let guard = 0;
+  while (skip.indexOf(dateKey(candidate)) !== -1 && guard < 52) {
+    candidate.setDate(candidate.getDate() + 7);
+    guard++;
+  }
   return candidate;
 }
 
@@ -393,9 +407,26 @@ function createCountdown(item) {
   }
 
   // Recurring weekly — compute the next occurrence dynamically.
+  const skipList = Array.isArray(item.skipDates) ? item.skipDates : [];
   const target = item.recurring === "weekly"
-    ? getNextWeeklyOccurrence(item.dayOfWeek, item.time).getTime()
+    ? getNextWeeklyOccurrence(item.dayOfWeek, item.time, skipList).getTime()
     : new Date(item.date).getTime();
+
+  // While a cancelled date is still current (or still ahead), say so on the
+  // card. Once the date passes, the note disappears on its own.
+  let skipLine = "";
+  if (item.recurring === "weekly" && skipList.length > 0) {
+    const now = new Date();
+    const upcomingSkip = skipList.find(function (d) {
+      return new Date(d + "T23:59:59") >= now;
+    });
+    if (upcomingSkip) {
+      skipLine =
+        item.skipNote ||
+        "No meeting " + formatDate(upcomingSkip) + " — cancelled";
+    }
+  }
+
   card.innerHTML =
     '<h3 class="countdown-name">' +
     escapeHtml(item.name) +
@@ -413,7 +444,10 @@ function createCountdown(item) {
     (item.recurring === "weekly"
       ? "Every Wednesday at " + formatTime12h(item.time)
       : formatDate(item.date)) +
-    "</p>";
+    "</p>" +
+    (skipLine
+      ? '<p class="countdown-skip">' + escapeHtml(skipLine) + "</p>"
+      : "");
 
   const values = {
     days: card.querySelector('[data-unit="days"]'),

@@ -56,6 +56,9 @@ const COUNTDOWNS = [
     name: "FBLA-IT Officer Meeting",
     recurring: "weekly",
     dayOfWeek: 3, // 0=Sun, 1=Mon, 2=Tue, 3=Wed, ...
+    // cancelled 9/2 — Mrs. Tamboli is out that day, so next is 9/9
+    skipDates: ["2026-09-02"],
+    skipNote: "No meeting Sept 2 — Mrs. Tamboli is absent that day, see you Sept 9",
     time: "14:20", // 2:20 PM in 24h
     note: "Officers only",
     // no calendar block — officers only, so no Add to Calendar button
@@ -146,7 +149,7 @@ const EVENTS = [
     description:
       "Arizona FBLA regional competitive events. Details announced closer to the date.",
     type: "competition",
-    link: "https://www.azfbla.org/competitive-events/4594001338",
+    link: "https://www.azfbla.org/competitive-events",
   },
   {
     name: "Arizona State Leadership Conference",
@@ -263,7 +266,7 @@ const RESOURCES = [
     title: "Arizona FBLA Competitive Events",
     description:
       "Arizona's competitive-event information for high school members, including regional registration.",
-    url: "https://www.azfbla.org/competitive-events/4594001338",
+    url: "https://www.azfbla.org/competitive-events",
     category: "arizona",
   },
 ];
