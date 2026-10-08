@@ -57,8 +57,8 @@ const COUNTDOWNS = [
     recurring: "weekly",
     dayOfWeek: 3, // 0=Sun, 1=Mon, 2=Tue, 3=Wed, ...
     // cancelled 9/2 — Mrs. Tamboli is out that day, so next is 9/9
-    skipDates: ["2026-09-02"],
-    skipNote: "No meeting Sept 2 — Mrs. Tamboli is absent that day, see you Sept 9",
+    skipDates: ["2026-09-02", "2026-09-30"],
+    skipNote: "Sept 30 due to Fall Break. See you Sept 9.",
     time: "14:20", // 2:20 PM in 24h
     note: "Officers only",
     // no calendar block — officers only, so no Add to Calendar button
