@@ -141,6 +141,27 @@ const EVENTS = [
     },
   },
   {
+    name: "FBLA-Red Zone: Leadership Event 26-27",
+    date: "2026-11-13T00:00:00",
+    time: "10:00 AM – 4:00 PM",
+    location: "State Farm Stadium, 1 Cardinals Drive, Glendale, AZ 85305",
+    description:
+      "Dynamic interactive opening session featuring Arizona Cardinals staff and leaders from Arizona’s CTSOs.\n\nCost: $65 (Lunch excluded) + $15 transportation (Tax Credit Applicable) = $80.00. Includes a ticket to the Cardinals vs. LA Rams game on Sunday 11/15.\n\nMaximum 55 students, first come first serve.",
+    type: "conference",
+    link: "https://www.azfbla.org/general-6",
+    calendar: {
+      title: "FBLA-Red Zone Leadership Event 26-27",
+      location: "State Farm Stadium, 1 Cardinals Drive, Glendale, AZ 85305",
+      start: "2026-11-13T10:00:00",
+      end: "2026-11-13T16:00:00",
+      categories: ["Conference", "Leadership"],
+      status: "CONFIRMED",
+      reminders: [1440, 60],
+      description:
+        "Dynamic interactive opening session featuring Arizona Cardinals staff and leaders from Arizona’s CTSOs. Includes ticket to Cardinals vs. LA Rams game on Sunday 11/15.",
+    },
+  },
+  {
     name: "Regional Competitive Events",
     date: "",  // TBD
     dateTbd: true,
