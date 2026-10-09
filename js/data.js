@@ -52,24 +52,14 @@
 // To add another countdown (registration deadline, competition, conference...),
 // copy an entry and change the values.
 const COUNTDOWNS = [
+  // The officer meeting has been removed as it is not something to show  publically.
   {
-    name: "FBLA-IT Officer Meeting",
-    recurring: "weekly",
-    dayOfWeek: 3, // 0=Sun, 1=Mon, 2=Tue, 3=Wed, ...
-    // cancelled 9/2 — Mrs. Tamboli is out that day, so next is 9/9
-    skipDates: ["2026-09-02", "2026-09-30"],
-    skipNote: "Sept 30 due to Fall Break. See you Sept 9.",
-    time: "14:20", // 2:20 PM in 24h
-    note: "Officers only",
-    // no calendar block — officers only, so no Add to Calendar button
-  },
-  {
-    name: "Next FBLA-IT Meeting",
-    date: "2026-09-15T09:12:00",
-    note: "Kickoff meeting · Cafeteria",
+    name: "10/13 FBLA All Member Meeting",
+    date: "2026-10-13T09:12:00",
+    note: "All Member Meeting · PAC (Auditorium)",
     calendar: {
-      title: "FBLA-IT Kickoff Meeting",
-      location: "Cafeteria",
+      title: "10/13 FBLA All Member Meeting",
+      location: "PAC (Auditorium)",
       durationMinutes: 45,
       categories: ["Meeting", "Chapter"],
       status: "CONFIRMED",
@@ -134,8 +124,31 @@ const EVENTS = [
     type: "meeting",
     link: "",
     calendar: {
+      title: "FBLA-IT Kickoff Meeting",
+      location: "Cafeteria",
       start: "2026-09-15T09:12:00",
       durationMinutes: 45,
+      categories: ["Meeting", "Chapter"],
+      reminders: [1440, 10],
+      description:
+        "First chapter meeting of the 2026–2027 school year. Open to all members.",
+    },
+  },
+  {
+    name: "10/13 FBLA All Member Meeting",
+    date: "2026-10-13T00:00:00",
+    time: "9:12 AM – 9:42 AM",
+    location: "PAC (Auditorium)",
+    description:
+      "This will be an all-member meeting ; we will discuss the upcoming Red Zone Leadership Event, and we will announce another event.",
+    type: "meeting",
+    link: "",
+    calendar: {
+      title: "10/13 FBLA All Member Meeting",
+      location: "PAC (Auditorium)",
+      start: "2026-10-13T09:12:00",
+      end: "2026-10-13T09:42:00",
+      durationMinutes: 30,
       categories: ["Meeting", "Chapter"],
       reminders: [1440, 10],
     },
@@ -146,7 +159,7 @@ const EVENTS = [
     time: "10:00 AM – 4:00 PM",
     location: "State Farm Stadium, 1 Cardinals Drive, Glendale, AZ 85305",
     description:
-      "Dynamic interactive opening session featuring Arizona Cardinals staff and leaders from Arizona’s CTSOs.\n\nCost: $65 (Lunch excluded) + $15 transportation (Tax Credit Applicable) = $80.00. Includes a ticket to the Cardinals vs. LA Rams game on Sunday 11/15.\n\nMaximum 55 students, first come first serve.",
+      "Dynamic interactive opening session featuring Arizona Cardinals staff and leaders from Arizona’s CTSOs.\n\nWe will discuss the event details and pricing may be modified slightly.\n\nCost: $65 (Lunch excluded) + $15 transportation (Tax Credit Applicable) = $80.00. Includes a ticket to the Cardinals vs. LA Rams game on Sunday 11/15.\n\nMaximum 55 students, first come first serve.",
     type: "conference",
     link: "https://www.azfbla.org/general-6",
     calendar: {
