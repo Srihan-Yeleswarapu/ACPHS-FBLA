@@ -151,7 +151,7 @@ const EVENTS = [
     description:
       "First chapter meeting of the 2026–2027 school year. Open to all members.",
     type: "meeting",
-    link: "",
+    link: "https://docs.google.com/presentation/d/1O4DAzM38rOFbL6FXZbVjF99cJamBM33NfEsa3QfVl0Y/edit?slide=id.g3fa932af435_0_0#slide=id.g3fa932af435_0_0",
     calendar: {
       title: "9/11 FBLA All Member Meeting",
       location: "Cafeteria",
@@ -171,7 +171,7 @@ const EVENTS = [
     description:
       "This will be an all-member meeting ; we will discuss the upcoming Red Zone Leadership Event, and we will announce another event.",
     type: "meeting",
-    link: "",
+    link: "https://docs.google.com/presentation/d/1cOEH00LHRztPXND9MfMkX8xh5HfiPpD_1zrNNbEfv44/edit?slide=id.g3fa932af435_0_0#slide=id.g3fa932af435_0_0",
     calendar: {
       title: "10/13 FBLA All Member Meeting",
       location: "PAC (Auditorium)",
