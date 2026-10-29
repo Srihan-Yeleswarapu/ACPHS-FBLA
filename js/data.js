@@ -52,23 +52,39 @@
 // To add another countdown (registration deadline, competition, conference...),
 // copy an entry and change the values.
 const COUNTDOWNS = [
-  // The officer meeting has been removed as it is not something to show  publically.
   {
-    name: "10/13 FBLA All Member Meeting",
-    date: "2026-10-13T09:12:00",
-    note: "All Member Meeting · PAC (Auditorium)",
+    name: "10/30 Online Testing Practice Test",
+    date: "2026-10-30T14:30:00",
+    note: "Online Testing Tournament · B101 (Ms. Tamboli's room)",
     calendar: {
-      title: "10/13 FBLA All Member Meeting",
-      location: "PAC (Auditorium)",
+      title: "Online Testing Practice Test",
+      location: "B101 (Ms. Tamboli's room)",
+      start: "2026-10-30T14:30:00",
+      end: "2026-10-30T15:30:00",
+      durationMinutes: 60,
+      categories: ["Testing", "Chapter"],
+      status: "CONFIRMED",
+      reminders: [1440, 10],
+      description:
+        "Online Testing Tournament after school in B101 (Ms. Tamboli's room) from 2:30 PM to 3:30 PM.",
+    },
+  },
+  {
+    name: "11/12 FBLA All Member Meeting",
+    date: "2026-11-12T09:12:00",
+    note: "All Member Meeting · B101 (Ms. Tamboli's room)",
+    calendar: {
+      title: "11/12 FBLA All Member Meeting",
+      location: "B101 (Ms. Tamboli's room)",
+      start: "2026-11-12T09:12:00",
       durationMinutes: 45,
       categories: ["Meeting", "Chapter"],
       status: "CONFIRMED",
       reminders: [1440, 10],
       description:
-        "First chapter meeting of the 2026–2027 school year. Open to all members.",
+        "We will be having a meeting on Thursday, November 12th during Advisory in Ms. Tamboli's room (B101) to go over RedZone and maybe some other important information.",
     },
   },
-
 ];
 // ANNOUNCEMENTS
 // The Home page shows the newest announcement first, so add new announcements
@@ -81,9 +97,22 @@ const COUNTDOWNS = [
 //   priority    -> optional number; higher numbers are shown first
 const ANNOUNCEMENTS = [
   {
+    title: "Online Testing Practice Tests",
+    date: "2026-10-28",
+    description:
+      "Students can take online testing practice tests on 10/28 and 10/30. Potential upcoming practice testing days: 11/4 and 11/6.",
+  },
+  {
+    title: "Checkout our instagram!",
+    date: "",
+    description: "Follow us on Instagram for chapter news, events, and photos.",
+    link: "https://www.instagram.com/fblait.acp/",
+    linkText: "Open Instagram",
+  },
+  {
     title: "Website is ready!",
     date: "",
-    description: "Srihan and Gabriel have successfully completed building the ACPHS FBLA Website!"
+    description: "If you find any problems, necessary updates to be made, or just any suggestions, please feel free to reach out to either Srihan Y, or Gabriel H. via email. All suggestions are gladly taken into consideration"
   }
 ];
 // EVENTS
@@ -115,7 +144,7 @@ const EVENTS = [
     link: "",
   },
   {
-    name: "FBLA-IT Kickoff Meeting",
+    name: "9/11 FBLA All Member Meeting",
     date: "2026-09-15T00:00:00",
     time: "9:12 AM",
     location: "Cafeteria",
@@ -124,7 +153,7 @@ const EVENTS = [
     type: "meeting",
     link: "",
     calendar: {
-      title: "FBLA-IT Kickoff Meeting",
+      title: "9/11 FBLA All Member Meeting",
       location: "Cafeteria",
       start: "2026-09-15T09:12:00",
       durationMinutes: 45,
@@ -152,6 +181,66 @@ const EVENTS = [
       categories: ["Meeting", "Chapter"],
       reminders: [1440, 10],
     },
+  },
+  {
+    name: "ASU Polytechnic Campus Field Trip",
+    date: "2026-10-23T00:00:00",
+    time: "9:00 AM – 2:00 PM",
+    location: "ASU Polytechnic Campus, 7001 E Williams Field Rd, Mesa, AZ 85212",
+    description:
+      "Dynamic opportunity: field trip to the ASU Polytechnic campus where students participate in hands-on experiences that align with their CTE curriculum.\n\nDeparture (from school): ~9:00 AM. Arrival (at school): ~2:00 PM.\n\nCost: FREE.",
+    type: "conference",
+    link: "",
+  },
+  {
+    name: "Online Testing Practice Test",
+    date: "2026-10-28T00:00:00",
+    time: "2:30 PM – 3:30 PM",
+    location: "B101 (Ms. Tamboli's room)",
+    description:
+      "Online Testing Tournament after school in B101 (Ms. Tamboli's room) from 2:30 PM to 3:30 PM.",
+    type: "testing",
+    link: "",
+  },
+  {
+    name: "Online Testing Practice Test",
+    date: "2026-10-30T00:00:00",
+    time: "2:30 PM – 3:30 PM",
+    location: "B101 (Ms. Tamboli's room)",
+    description:
+      "Online Testing Tournament after school in B101 (Ms. Tamboli's room) from 2:30 PM to 3:30 PM.",
+    type: "testing",
+    link: "",
+  },
+  {
+    name: "Online Testing Practice Test (Potential)",
+    date: "2026-11-04T00:00:00",
+    time: "2:30 PM – 3:30 PM",
+    location: "B101 (Ms. Tamboli's room)",
+    description:
+      "Online Testing Tournament after school in B101 (Ms. Tamboli's room) from 2:30 PM to 3:30 PM.",
+    type: "testing",
+    link: "",
+  },
+  {
+    name: "Online Testing Practice Test (Potential)",
+    date: "2026-11-06T00:00:00",
+    time: "2:30 PM – 3:30 PM",
+    location: "B101 (Ms. Tamboli's room)",
+    description:
+      "Online Testing Tournament after school in B101 (Ms. Tamboli's room) from 2:30 PM to 3:30 PM.",
+    type: "testing",
+    link: "",
+  },
+  {
+    name: "11/12 FBLA All Member Meeting",
+    date: "2026-11-12T00:00:00",
+    time: "Advisory",
+    location: "B101 (Ms. Tamboli's room)",
+    description:
+      "We will be having a meeting on Thursday, November 12th during Advisory in Ms. Tamboli's room (B101) to go over RedZone and maybe some other important information.",
+    type: "meeting",
+    link: "",
   },
   {
     name: "FBLA-Red Zone: Leadership Event 26-27",
@@ -260,6 +349,7 @@ const RESOURCES = [
     url: "https://www.fbla.org/high-school/hs-scholarships-aid/",
     category: "national",
   },
+  
   {
     title: "National Leadership Conference",
     description:

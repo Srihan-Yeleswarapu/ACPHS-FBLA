@@ -76,8 +76,10 @@ img {
   margin: 0 auto;
   padding: 0 20px;
 }
-.hidden {
-  display: none !important;
+.instagram-embed {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 /* ---- Header / navigation ---- */
@@ -626,6 +628,12 @@ img {
   margin: 0;
   font-size: 0.95rem;
   opacity: 0.9;
+}
+
+.footer-credits {
+  font-size: 0.85rem;
+  color: var(--grey-500);
+  margin: 0;
 }
 
 /* ---- Responsive ---- */
